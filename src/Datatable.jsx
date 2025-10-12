@@ -34,7 +34,7 @@ const ColumnHeader = React.memo(({ header }) => {
       whileDrag={{
         scale: 1.05,
         zIndex: 999,
-        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
+        // boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
       }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
