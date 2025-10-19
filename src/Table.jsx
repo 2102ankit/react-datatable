@@ -29,7 +29,7 @@ function Table() {
         header: "ID",
         id: "id",
         meta: {
-          filterType: "text",
+          filterType: "number",
         },
         enableSorting: true,
       }),
@@ -119,7 +119,7 @@ function Table() {
       }
 
       columnFilters.forEach((filter) => {
-        const column = columns.find((col) => col.accessorKey === filter.id);
+        const column = columns.find((col) => col.id === filter.id || col.accessorKey === filter.id);
         if (column && column.meta?.filterType === "text") {
           switch (filter.op) {
             case "contains":
@@ -141,10 +141,10 @@ function Table() {
               params.append(`${filter.id}_neq`, filter.value);
               break;
             case "is_blank":
-              params.append(`${filter.id}_blank`, filter.value);
+              params.append(`${filter.id}_blank`, "true");
               break;
             case "is_not_blank":
-              params.append(`${filter.id}_not_blank`, filter.value);
+              params.append(`${filter.id}_not_blank`, "true");
               break;
             default:
               break;
@@ -152,7 +152,7 @@ function Table() {
         } else if (column && column.meta?.filterType === "number") {
           switch (filter.op) {
             case "eq":
-              params.append(filter.id, filter.value);
+              params.append(`${filter.id}_eq`, filter.value);
               break;
             case "neq":
               params.append(`${filter.id}_neq`, filter.value);
@@ -170,8 +170,8 @@ function Table() {
               params.append(`${filter.id}_lte`, filter.value);
               break;
             case "between":
-              params.append(`${filter.id}_gte`, filter.value);
-              params.append(`${filter.id}_lte`, filter.value);
+              if (filter.value) params.append(`${filter.id}_gte`, filter.value);
+              if (filter.value2) params.append(`${filter.id}_lte`, filter.value2);
               break;
             default:
               break;
@@ -180,11 +180,11 @@ function Table() {
       });
 
       const { data } = await axios.get(
-        `https://dummyjson.com/products?${params}`
-        // `https://localhost:3001/api/products?${params}`
+        `http://localhost:3001/api/products?${params}`
+        // `https://dummyjson.com/products?${params}` // Use local server for full features
       );
-      const products = await data.products;
-      const total = await data.total;
+      const products = data.products;
+      const total = data.total;
 
       setData(products);
       setTotalRowCount(total);

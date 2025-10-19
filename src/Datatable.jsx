@@ -70,7 +70,7 @@ const ColumnHeader = ({
   const handleFilterChange = (e) => {
     const value = e.target.value;
     setColumnFilters((prev) => {
-      const others = prev.filter((f) => f.id != header.id);
+      const others = prev.filter((f) => f.id !== header.id);
       if (filterType === "number" && filterOp === "between") {
         if (!value && !filterValue2) return others;
         return [
@@ -108,13 +108,13 @@ const ColumnHeader = ({
   const handleOpChange = (e) => {
     const op = e.target.value;
     setColumnFilters((prev) => {
-      const others = prev.filer((f) => f.id != header.id);
+      const others = prev.filter((f) => f.id !== header.id);
       if (op === "is_blank" || op === "is_not_blank") {
         return [
           ...others,
           {
             id: header.id,
-            op: filterOp,
+            op: op,
           },
         ];
       }
@@ -122,7 +122,7 @@ const ColumnHeader = ({
         ...others,
         {
           id: header.id,
-          op: filterOp,
+          op: op,
           value: "",
           value2: "",
         },
@@ -133,7 +133,7 @@ const ColumnHeader = ({
   const handleValue2Change = (e) => {
     const value2 = e.target.value;
     setColumnFilters((prev) => {
-      const others = prev.filer((f) => f.id != header.id);
+      const others = prev.filter((f) => f.id !== header.id);
       return [
         ...others,
         {
@@ -147,7 +147,7 @@ const ColumnHeader = ({
   };
 
   const handleResetColumnFilter = () => {
-    setColumnFilters((prev) => prev.filer((f) => f.id != header.id));
+    setColumnFilters((prev) => prev.filter((f) => f.id !== header.id));
     setShowFilter(false);
   };
 
@@ -188,7 +188,6 @@ const ColumnHeader = ({
       whileDrag={{
         scale: 1.05,
         zIndex: 999,
-        // boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
       }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
@@ -199,7 +198,6 @@ const ColumnHeader = ({
         whileHover={{ opacity: 1 }}
         whileDrag={{ scale: 1.1, cursor: "grabbing" }}
         style={{
-          // display: "inline-block",
           cursor: "grab",
           userSelect: "none",
           marginRight: "8px",
@@ -228,9 +226,6 @@ const ColumnHeader = ({
             flex: 1,
             userSelect: "none",
           }}
-          // whileHover={{ scale: 1.02 }}
-          // whileTap={{ scale: 0.98 }}
-          // transition={{ duration: 0.1 }}
         >
           {flexRender(header.column.columnDef.header, header.getContext())}
           {header.column.getCanSort() && (
@@ -356,7 +351,7 @@ const ColumnHeader = ({
                 onChange={handleFilterChange}
                 placeholder={`${header.column.columnDef.header}`}
                 style={{
-                  width: "50%",
+                  width: "100%",
                   fontSize: "13px",
                   padding: "4px",
                   borderRadius: "3px",
@@ -707,7 +702,6 @@ const DataTable = ({
                             overflow: isExpanded ? "visible" : "hidden",
                             whiteSpace: isExpanded ? "normal" : "nowrap",
                             textOverflow: isExpanded ? "unset" : "ellipsis",
-                            textWrap: selected === index ? "wrap" : "nowrap",
                             padding: compact ? "4px 8px" : "10px 16px",
                           }}
                           initial={{ opacity: 0 }}
