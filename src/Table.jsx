@@ -3,33 +3,59 @@ import { createColumnHelper } from "@tanstack/react-table";
 import axios from "axios";
 import { motion } from "framer-motion";
 
-import React from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import DataTable from "./Datatable";
 import "./table-style.css";
 
 const columnHelper = createColumnHelper();
 
-function Table() {
-  const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
-  const [totalRowCount, setTotalRowCount] = React.useState(0);
-  const [pagination, setPagination] = React.useState({
+function Table({ darkMode }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [totalRowCount, setTotalRowCount] = useState(0);
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-  const [sorting, setSorting] = React.useState([]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [columnOrder, setColumnOrder] = React.useState([]);
+  const [sorting, setSorting] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [columnOrder, setColumnOrder] = useState([]);
 
-  const columns = React.useMemo(
+  const handleEdit = (row) => {
+    console.log("Edit row:", row);
+    // Add your edit logic here
+    alert(`Editing product: ${row.title}`);
+  };
+
+  const handleDelete = (row) => {
+    console.log("Delete row:", row);
+    // Add your delete logic here
+    if (confirm(`Are you sure you want to delete "${row.title}"?`)) {
+      // Delete logic here
+      alert(`Deleted product: ${row.title}`);
+    }
+  };
+
+  const columns = useMemo(
     () => [
+      columnHelper.display({
+        id: "actions",
+        header: "Actions",
+        size: 100,
+        meta: {
+          sticky: true,
+          align: "center",
+        },
+        enableSorting: false,
+      }),
       columnHelper.accessor("id", {
         header: "ID",
         id: "id",
         meta: {
           filterType: "number",
+          align: "center",
         },
         enableSorting: true,
       }),
@@ -55,6 +81,7 @@ function Table() {
         id: "price",
         meta: {
           filterType: "number",
+          align: "center",
         },
         enableSorting: true,
       }),
@@ -79,6 +106,7 @@ function Table() {
         id: "stock",
         meta: {
           filterType: "number",
+          align: "center",
         },
         enableSorting: true,
       }),
@@ -88,6 +116,7 @@ function Table() {
         accessorFn: (row) => row.rating?.rate,
         meta: {
           filterType: "number",
+          align: "center",
         },
         enableSorting: true,
       }),
@@ -95,11 +124,11 @@ function Table() {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setColumnOrder(columns.map((col) => col.id));
   }, [columns]);
 
-  const fetchData = React.useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -119,7 +148,9 @@ function Table() {
       }
 
       columnFilters.forEach((filter) => {
-        const column = columns.find((col) => col.id === filter.id || col.accessorKey === filter.id);
+        const column = columns.find(
+          (col) => col.id === filter.id || col.accessorKey === filter.id
+        );
         if (column && column.meta?.filterType === "text") {
           switch (filter.op) {
             case "contains":
@@ -171,7 +202,8 @@ function Table() {
               break;
             case "between":
               if (filter.value) params.append(`${filter.id}_gte`, filter.value);
-              if (filter.value2) params.append(`${filter.id}_lte`, filter.value2);
+              if (filter.value2)
+                params.append(`${filter.id}_lte`, filter.value2);
               break;
             default:
               break;
@@ -196,7 +228,7 @@ function Table() {
     }
   }, [pagination, sorting, globalFilter, columnFilters, columns]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [fetchData]);
 
@@ -245,13 +277,6 @@ function Table() {
         </motion.h1>
       </header>
       <main className="container">
-        <motion.h2
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          Product List ({totalRowCount.toLocaleString()} total products)
-        </motion.h2>
         <DataTable
           data={data}
           columns={columns}
@@ -272,6 +297,9 @@ function Table() {
           totalRowCount={totalRowCount}
           columnOrder={columnOrder}
           setColumnOrder={setColumnOrder}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          darkMode={darkMode}
         />
       </main>
     </motion.div>

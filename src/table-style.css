@@ -17,8 +17,7 @@ body {
 }
 
 .table-layout-header {
-  padding: 20px;
-  background-color: #f8f9fa;
+  padding: 10px;
 }
 
 .table-layout-header h1 {
@@ -31,7 +30,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -51,8 +50,6 @@ body {
 h2 {
   font-size: 1.2rem;
   font-weight: 600;
-  /* margin-bottom: 20px; */
-  color: #1e293b;
   text-align: left;
 }
 
@@ -77,8 +74,6 @@ h2 {
 }
 
 .global-filter-input {
-  /* width: 100%; */
-  /* margin-top: 8px; */
   padding: 8px;
   border: 1px solid #ced4da;
   border-radius: 4px;
@@ -94,23 +89,6 @@ h2 {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
-
-/* .column-filter-input,
-.column-filter-select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.column-filter-input:focus,
-.column-filter-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-} */
 
 .pagination-controls {
   display: flex;
