@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
+import fs from "fs/promises"; // Add fs for reading JSON file
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import path from "path"; // Add path for reliable file paths
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,17 +14,17 @@ app.use(cors());
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, 'public'))); // Serve static files if needed
 
-// Fetch full products data on startup (dummyjson has only 100, so it's fine)
+// Fetch full products data on startup from products.json
 let allProducts = [];
 async function loadProducts() {
   try {
-    const { data } = await axios.get(
-      "https://dummyjson.com/products?limit=100"
-    );
-    allProducts = data.products;
-    console.log(`Loaded ${allProducts.length} products.`);
+    const filePath = path.join(process.cwd(), "products.json"); // Use process.cwd() for Vercel compatibility
+    const fileData = await fs.readFile(filePath, "utf8");
+    const data = JSON.parse(fileData);
+    allProducts = data.products || data; // Handle both { products: [] } and direct [] formats
+    console.log(`Loaded ${allProducts.length} products from products.json.`);
   } catch (error) {
-    console.error("Failed to load products:", error);
+    console.error("Failed to load products from products.json:", error);
   }
 }
 loadProducts();
