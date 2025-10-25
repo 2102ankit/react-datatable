@@ -1,0 +1,331 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc; /* neutral-50 */
+  color: #334155; /* neutral-700 */
+  cursor: pointer;
+}
+
+.table-layout {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.table-layout-header {
+  padding: 10px;
+}
+
+.table-layout-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.data-table-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0px;
+  border: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: calc(100vh-200px);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 4px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 10px;
+}
+
+.global-filter-input {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  background-color: white;
+  color: black;
+}
+
+.global-filter-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  /* margin-top: 15px; */
+  flex-wrap: wrap;
+}
+
+.pagination-controls button,
+.pagination-controls select {
+  padding: 6px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  /* background-color: #fff; */
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-controls .page-info {
+  margin: 0 8px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.pagination-controls .page-info strong {
+  font-weight: 700;
+  margin: 0 4px;
+}
+
+select {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  /* background-color: #fff; */
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  min-width: 0;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden; /* Ensure border-radius works with borders */
+  /* margin-top: 10px; */
+  height: 600px;
+  /* overflow-y: scroll; */
+}
+
+thead {
+  background-color: #f1f5f9; /* neutral-100 */
+  color: #475569; /* neutral-600 */
+  text-align: left;
+  position: sticky; /* Make headers sticky */
+  top: 0; /* Stick to the top of its scrolling container */
+}
+
+th {
+  padding: 12px;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* semibold */
+  white-space: nowrap; /* Prevent headers from wrapping */
+  user-select: none;
+  border-bottom: 1px solid #e2e8f0; /* neutral-200 */
+  position: sticky; /* Make headers sticky */
+  top: 0; /* Stick to the top of its scrolling container */
+  background-color: #f8f9fa;
+  color: #475569;
+  z-index: 10;
+  cursor: default;
+  position: relative;
+}
+
+th:hover {
+  background-color: #e9ecef;
+}
+
+th.dragging {
+  background-color: #e9ecef;
+  z-index: 10; /* Ensure dragging header is above others */
+}
+
+th .cursor-pointer {
+  cursor: pointer;
+}
+
+th .cursor-pointer:hover {
+  background-color: #e2e8f0; /* neutral-200 on hover, should be on inner div */
+}
+
+th .sort-indicator {
+  margin-left: 5px;
+  display: inline-block;
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+
+th .drag-handle {
+  cursor: grab;
+}
+
+tbody {
+  max-height: 60vh;
+  overflow-y: hidden;
+}
+
+/* tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+} */
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fcfcfc; /* Slight alternating row color */
+}
+
+tbody tr:hover {
+  background-color: #f1f5f9; /* neutral-100 on hover */
+}
+
+td {
+  padding: 12px;
+  font-size: 0.875rem; /* text-sm */
+  color: #334155; /* neutral-700 */
+  white-space: nowrap;
+  /* border: 1px solid #e0e0e0; */
+}
+
+.drag-handle {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  color: #6b7280; /* neutral-500 */
+}
+
+.drag-handle:hover {
+  opacity: 1;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Ensure the table wrapper constrains the table height and allows scrolling */
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: calc(
+    100vh - 200px
+  ); /* Adjust based on your header and controls height */
+  position: relative; /* Required for sticky positioning context */
+  border: 1px solid #ddd;
+  padding: 0;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden; /* Ensure border-radius works with borders */
+}
+
+/* Make the table header sticky */
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #f1f5f9; /* neutral-100 */
+  color: #475569; /* neutral-600 */
+  z-index: 10; /* Ensure header stays above scrolling content */
+}
+
+/* Style table headers */
+th {
+  padding: 12px;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* semibold */
+  white-space: nowrap; /* Prevent headers from wrapping */
+  user-select: none;
+  border-bottom: 1px solid #e2e8f0; /* neutral-200 */
+  background-color: #f1f5f9; /* Match thead background */
+  color: #475569;
+  cursor: default;
+}
+
+/* Style the table body to be scrollable */
+tbody {
+  display: block; /* Make tbody a block to allow scrolling */
+  max-height: calc(
+    100vh - 250px
+  ); /* Adjust based on header, controls, and thead height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Ensure table rows and cells behave correctly */
+tr {
+  display: table; /* Ensure rows take full table width */
+  width: 100%;
+  table-layout: fixed; /* Ensure consistent column widths */
+}
+
+tbody tr {
+  border-bottom: 1px solid #e2e8f0; /* neutral-200 */
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fcfcfc; /* Slight alternating row color */
+}
+
+tbody tr:hover {
+  background-color: #f1f5f9; /* neutral-100 on hover */
+}
+
+td {
+  padding: 12px;
+  font-size: 0.875rem; /* text-sm */
+  color: #334155; /* neutral-700 */
+  border: 1px solid #e0e0e0;
+  white-space: nowrap;
+  text-wrap: wrap; /* Allow wrapping if needed */
+}
+
+/* Ensure th and td have consistent widths */
+th,
+td {
+  box-sizing: border-box;
+}
