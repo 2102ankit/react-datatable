@@ -9,8 +9,6 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001; // Use PORT from .env or default to 3001
-const API_URL = process.env.API_URL || "http://localhost"; // Use API_URL from .env
-
 app.use(cors());
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, 'public'))); // Serve static files if needed
