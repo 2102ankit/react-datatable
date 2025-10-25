@@ -2,10 +2,11 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import axios from "axios";
 import { motion } from "framer-motion";
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import DataTable from "./Datatable";
 import "./table-style.css";
+
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const columnHelper = createColumnHelper();
 
@@ -212,8 +213,7 @@ function Table({ darkMode }) {
       });
 
       const { data } = await axios.get(
-        `http://localhost:3001/api/products?${params}`
-        // `https://dummyjson.com/products?${params}` // Use local server for full features
+        `${VITE_SERVER_URL}/api/products?${params}`
       );
       const products = data.products;
       const total = data.total;
