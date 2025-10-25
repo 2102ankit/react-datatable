@@ -248,5 +248,6 @@ app.get("/api/products", (req, res) => {
 });
 
 app.listen(PORT, () => {
+  loadProducts();
   console.log(`Server running on http://localhost:${PORT}`);
 });
